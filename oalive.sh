@@ -39,7 +39,7 @@ fi
 
 checkver() {
   running_version=$(grep "ver=\"[0-9]\{4\}\.[0-9]\{2\}\.[0-9]\{2\}\.[0-9]\{2\}\.[0-9]\{2\}" "$0" | awk -F '"' '{print $2}')
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/oalive.sh -o oalive1.sh && chmod +x oalive1.sh
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/oalive.sh -o oalive1.sh && chmod +x oalive1.sh
   downloaded_version=$(grep "ver=\"[0-9]\{4\}\.[0-9]\{2\}\.[0-9]\{2\}\.[0-9]\{2\}\.[0-9]\{2\}" oalive1.sh | awk -F '"' '{print $2}')
   if [ "$running_version" != "$downloaded_version" ]; then
     _yellow "更新脚本从 $ver 到 $downloaded_version"
@@ -86,10 +86,10 @@ boinc() {
 }
 
 calculate() {
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/cpu-limit.sh -o cpu-limit.sh && chmod +x cpu-limit.sh
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/cpu-limit.sh -o cpu-limit.sh && chmod +x cpu-limit.sh
   mv cpu-limit.sh /usr/local/bin/cpu-limit.sh
   chmod +x /usr/local/bin/cpu-limit.sh
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/cpu-limit.service -o cpu-limit.service && chmod +x cpu-limit.service
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/cpu-limit.service -o cpu-limit.service && chmod +x cpu-limit.service
   mv cpu-limit.service /etc/systemd/system/cpu-limit.service
   line_number=7
   total_cores=0
@@ -118,10 +118,10 @@ calculate() {
 }
 
 memory() {
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/memory-limit.sh -o memory-limit.sh && chmod +x memory-limit.sh
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/memory-limit.sh -o memory-limit.sh && chmod +x memory-limit.sh
   mv memory-limit.sh /usr/local/bin/memory-limit.sh
   chmod +x /usr/local/bin/memory-limit.sh
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/memory-limit.service -o memory-limit.service && chmod +x memory-limit.service
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/memory-limit.service -o memory-limit.service && chmod +x memory-limit.service
   mv memory-limit.service /etc/systemd/system/memory-limit.service
   systemctl daemon-reload
   systemctl enable memory-limit.service
@@ -137,12 +137,12 @@ memory() {
 }
 
 bandwidth() {
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.sh -o bandwidth_occupier.sh && chmod +x bandwidth_occupier.sh
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.sh -o bandwidth_occupier.sh && chmod +x bandwidth_occupier.sh
   mv bandwidth_occupier.sh /usr/local/bin/bandwidth_occupier.sh
   chmod +x /usr/local/bin/bandwidth_occupier.sh
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.timer -o bandwidth_occupier.timer && chmod +x bandwidth_occupier.timer
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.timer -o bandwidth_occupier.timer && chmod +x bandwidth_occupier.timer
   mv bandwidth_occupier.timer /etc/systemd/system/bandwidth_occupier.timer
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.service -o bandwidth_occupier.service && chmod +x bandwidth_occupier.service
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.service -o bandwidth_occupier.service && chmod +x bandwidth_occupier.service
   mv bandwidth_occupier.service /etc/systemd/system/bandwidth_occupier.service
   reading "需要自定义带宽占用的设置吗? (y/[n]) " answer
   if [ "$answer" == "y" ]; then
@@ -169,11 +169,11 @@ bandwidth() {
     if ! command -v speedtest-cli >/dev/null 2>&1; then
       ARCH=$(uname -m)
       if [[ "$ARCH" == "armv7l" || "$ARCH" == "armv8" || "$ARCH" == "armv8l" || "$ARCH" == "aarch64" ]]; then
-        FILE_URL="${cdn_success_url}https://github.com/showwin/speedtest-go/releases/download/v1.5.2/speedtest-go_1.5.2_Linux_arm64.tar.gz"
+        FILE_URL="https://github.com/showwin/speedtest-go/releases/download/v1.5.2/speedtest-go_1.5.2_Linux_arm64.tar.gz"
       elif [[ $ARCH == "i386" ]]; then
-        FILE_URL="${cdn_success_url}https://github.com/showwin/speedtest-go/releases/download/v1.5.2/speedtest-go_1.5.2_Linux_i386.tar.gz"
+        FILE_URL="https://github.com/showwin/speedtest-go/releases/download/v1.5.2/speedtest-go_1.5.2_Linux_i386.tar.gz"
       elif [[ $ARCH == "x86_64" ]]; then
-        FILE_URL="${cdn_success_url}https://github.com/showwin/speedtest-go/releases/download/v1.5.2/speedtest-go_1.5.2_Linux_x86_64.tar.gz"
+        FILE_URL="https://github.com/showwin/speedtest-go/releases/download/v1.5.2/speedtest-go_1.5.2_Linux_x86_64.tar.gz"
       else
         _red "不支持该架构：$ARCH"
         exit 1
@@ -204,29 +204,6 @@ bandwidth() {
   _green "The bandwidth limit script has been installed at /usr/local/bin/bandwidth_occupier.sh"
 }
 
-cdn_urls=("https://cdn0.spiritlhl.top/" "http://cdn3.spiritlhl.net/" "http://cdn1.spiritlhl.net/" "https://ghproxy.com/" "http://cdn2.spiritlhl.net/")
-
-check_cdn() {
-  local o_url=$1
-  for cdn_url in "${cdn_urls[@]}"; do
-    if curl -sL -k "$cdn_url$o_url" --max-time 6 | grep -q "success" >/dev/null 2>&1; then
-      export cdn_success_url="$cdn_url"
-      return
-    fi
-    sleep 0.5
-  done
-  export cdn_success_url=""
-}
-
-check_cdn_file() {
-  check_cdn "https://raw.githubusercontent.com/spiritLHLS/ecs/main/back/test"
-  if [ -n "$cdn_success_url" ]; then
-    _yellow "CDN available, using CDN"
-  else
-    _yellow "No CDN available, no use CDN"
-  fi
-}
-
 download_speedtest_go_file() {
   cd /root >/dev/null 2>&1
   file="/etc/speedtest-cli/speedtest-go"
@@ -239,7 +216,7 @@ download_speedtest_go_file() {
     sys_bit="arm64"
   fi
   rm -rf speedtest-go*
-  local url3="${cdn_success_url}https://github.com/showwin/speedtest-go/releases/download/v1.6.0/speedtest-go_1.6.0_Linux_${sys_bit}.tar.gz"
+  local url3="https://github.com/showwin/speedtest-go/releases/download/v1.6.0/speedtest-go_1.6.0_Linux_${sys_bit}.tar.gz"
   wget $url3
   if [ $? -eq 0 ]; then
     _green "Used speedtest-go"
@@ -278,9 +255,9 @@ install_speedtest_go() {
 bandwidth_speedtest_go() {
   install_speedtest_go
   cd /root >/dev/null 2>&1
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.timer -o bandwidth_occupier.timer && chmod +x bandwidth_occupier.timer
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.timer -o bandwidth_occupier.timer && chmod +x bandwidth_occupier.timer
   mv bandwidth_occupier.timer /etc/systemd/system/bandwidth_occupier.timer
-  curl -L https://gitlab.com/spiritysdx/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.service -o bandwidth_occupier.service && chmod +x bandwidth_occupier.service
+  curl -L https://github.com/enoqv/Oracle-server-keep-alive-script/-/raw/main/bandwidth_occupier.service -o bandwidth_occupier.service && chmod +x bandwidth_occupier.service
   mv bandwidth_occupier.service /etc/systemd/system/bandwidth_occupier.service
   file_content=$(cat /etc/systemd/system/bandwidth_occupier.service)
   new_file_content=$(echo "$file_content" | sed '7s/.*/ExecStart=\/bin\/bash -c '\''for i in {1..10}; do \/etc\/speedtest-cli\/speedtest-go; done'\''/')
@@ -358,7 +335,6 @@ pre_check() {
   check_and_install bc bc
   check_and_install fallocate util-linux
   check_and_install nproc coreutils
-  check_cdn_file
 }
 
 check_service_status() {
@@ -395,7 +371,7 @@ check_services_status() {
 
 main() {
   _green "当前脚本更新时间(请注意比对仓库说明)： $ver"
-  _green "仓库：https://github.com/spiritLHLS/Oracle-server-keep-alive-script"
+  _green "仓库：https://github.com/enoqv/Oracle-server-keep-alive-script"
   check_services_status
   echo "选择你的选项:"
   echo "1. 安装保活服务"
